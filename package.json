@@ -1,0 +1,13 @@
+{
+  "name": "integralplatforms",
+  "version": "1.0.0",
+  "description": "IntegralEd Platform - Modern educational platform",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "python3 -m http.server 8000",
+    "preview": "cd dist && python3 -m http.server 8080"
+  },
+  "keywords": ["education", "platform"],
+  "author": "IntegralEd",
+  "license": "MIT"
+}

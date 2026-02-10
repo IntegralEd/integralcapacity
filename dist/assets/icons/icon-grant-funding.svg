@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <title>Grant funding award</title>
+  <circle cx="16" cy="14" r="8"/>
+  <path d="M16 22 L16 28"/>
+  <path d="M12 26 L16 28 L20 26"/>
+  <path d="M16 10 L17 13 L20 13 L18 15 L19 18 L16 16 L13 18 L14 15 L12 13 L15 13 Z"/>
+</svg>
