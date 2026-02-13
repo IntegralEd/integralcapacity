@@ -62,7 +62,8 @@ h3 {
 
 h4 {
   font-size: 1.125rem;
-  font-weight: 500;
+  font-weight: 600;
+  text-align: left;
 }
 
 p {
@@ -70,6 +71,13 @@ p {
   font-size: 16px;
   margin-bottom: var(--spacing-sm);
   max-width: 70ch;
+}
+
+/* List Items */
+li {
+  color: #000000;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 /* Links */
