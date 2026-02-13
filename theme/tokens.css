@@ -6,26 +6,42 @@
  */
 
 :root {
-  /* Color System - Integral Ed Brand */
+  /* Color System - Integral Ed Brand Palette */
+
+  /* Brand Colors */
+  --color-plum: #600b68;
+  --color-magenta: #b8357b;
+  --color-yellow: #ffbc50;
+  --color-teal: #4dadb3;
+  --color-blue: #4d72ac;
+
+  /* Primary color (plum for buttons, links, UI elements) */
   --primary: #600b68;
-  /* Plum */
   --primary-dark: #4a0852;
   --primary-light: #7a1580;
-  --primary-light-bg: #f5f0f6;
 
-  --accent: #600b68;
-  --accent-dark: #4a0852;
+  /* Accent colors (use these for variety to avoid plum everywhere) */
+  --accent-magenta: #b8357b;
+  --accent-yellow: #ffbc50;
+  --accent-teal: #4dadb3;
+  --accent-blue: #4d72ac;
 
+  /* Backgrounds */
   --bg-primary: #ffffff;
-  --bg-secondary: #fafafa;
+  --bg-secondary: #ebebeb;
+  /* Off-white for subtle differentiation */
   --bg-tertiary: #f5f5f5;
   --bg-accent: #f5f0f6;
 
-  --text-primary: #2d2d2d;
-  --text-secondary: #4a4a4a;
+  /* Text Colors */
+  --text-primary: #000000;
+  /* Black for body text */
+  --text-secondary: #374151;
+  /* Alternative to black */
   --text-tertiary: #6b6b6b;
 
-  --border-light: #e8e8e8;
+  /* Borders */
+  --border-light: #ebebeb;
   --border-medium: #d0d0d0;
 
   /* Spacing Scale */
