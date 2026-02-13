@@ -1,0 +1,117 @@
+name: Sync Theme to Microsites
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    name: Sync to ${{ matrix.repo }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      # Don't cancel other jobs if one fails
+      fail-fast: false
+      matrix:
+        repo:
+          - IntegralEd/integral-themes-playground
+          - IntegralEd/integralcareerpathways
+          - IntegralEd/integralgrowthstrategies
+          - IntegralEd/integralcapacity
+          - IntegralEd/integralplatforms
+          - IntegralEd/integralelearning
+
+    steps:
+      - name: Checkout integralthemes (source)
+        uses: actions/checkout@v4
+        with:
+          path: integralthemes
+          fetch-depth: 0
+
+      - name: Checkout microsite (${{ matrix.repo }})
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ matrix.repo }}
+          token: ${{ secrets.Style_Push_Microsites }}
+          path: microsite
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          cd microsite
+          git config user.name "Integral Themes Bot"
+          git config user.email "noreply@integral-ed.com"
+
+      - name: Check if microsite is ready for theme sync
+        id: check_vendor
+        run: |
+          cd microsite
+          if [ -d "vendor/integralthemes" ]; then
+            echo "ready=true" >> $GITHUB_OUTPUT
+            echo "✓ vendor/integralthemes exists - proceeding with sync"
+          else
+            echo "ready=false" >> $GITHUB_OUTPUT
+            echo "⚠ vendor/integralthemes not found - skipping sync"
+            echo "This microsite is not yet configured to use the shared theme."
+          fi
+
+      - name: Sync theme via git subtree pull
+        if: steps.check_vendor.outputs.ready == 'true'
+        run: |
+          cd microsite
+
+          # Add integralthemes remote
+          git remote add integralthemes ../integralthemes || true
+          git fetch integralthemes
+
+          # Attempt subtree pull
+          echo "Pulling theme updates..."
+          git subtree pull --prefix vendor/integralthemes integralthemes main --squash -m "$(cat <<'EOF'
+          Update vendored integralthemes from upstream
+
+          Theme sync from integralthemes@${{ github.sha }}
+
+          Co-Authored-By: Integral Themes Bot <noreply@integral-ed.com>
+          EOF
+          )"
+
+      - name: Push changes to microsite
+        if: steps.check_vendor.outputs.ready == 'true'
+        run: |
+          cd microsite
+
+          # Check if there are changes to push
+          if git diff --quiet origin/main; then
+            echo "✓ No changes to push (already up to date)"
+          else
+            echo "✓ Pushing theme updates to ${{ matrix.repo }}"
+            git push origin main
+          fi
+
+      - name: Report skip
+        if: steps.check_vendor.outputs.ready == 'false'
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "SKIPPED: ${{ matrix.repo }}"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          echo "This microsite does not yet have vendor/integralthemes."
+          echo "To enable automatic theme sync, run:"
+          echo ""
+          echo "  cd ${{ matrix.repo }}"
+          echo "  git subtree add --prefix vendor/integralthemes \\"
+          echo "    git@github.com:IntegralEd/integralthemes.git main --squash"
+          echo ""
+          echo "This is expected during rollout and is not an error."
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+      - name: Summary
+        if: always()
+        run: |
+          cd microsite
+          if [ -d "vendor/integralthemes" ]; then
+            echo "✅ ${{ matrix.repo }}: Theme sync completed"
+          else
+            echo "⏭️  ${{ matrix.repo }}: Skipped (not yet configured)"
+          fi

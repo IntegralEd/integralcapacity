@@ -1,0 +1,113 @@
+<!--
+  Universal Integral Ed Chat Widget (Chatbase)
+
+  This widget provides customer support and inquiry handling across all
+  Integral Ed microsites using a shared Chatbase instance.
+
+  Features:
+  - Loads after 10-second delay to avoid impacting page load performance
+  - Appears bottom-right (Chatbase default position)
+  - Shared Chatbase ID across all sites for unified conversations
+  - Automatically captures URL and UTM parameters as context
+  - Context sent once per session (invisible to user)
+  - No per-site configuration needed
+
+  Usage:
+  Microsites should inject this file into the <body> of HTML pages at build time.
+  The widget is identical across all sites.
+
+  Technical details:
+  - Chatbase ID: Yb5-ZOPsnSt9Ju6r3P7C7
+  - Domain: www.chatbase.co
+  - Load delay: 10 seconds (10000ms)
+  - Position: Bottom-right (default)
+  - Context format: INTEGRAL_CONTEXT:{url, path, utm_*}
+-->
+
+<script>
+/*
+  Integral Ed universal Chatbase widget
+  - loads after 10 seconds
+  - sends a one-time context payload (URL + UTM) as the first user message
+  - relies on Chatbase agent instructions to treat it as context and not reply to it
+*/
+(function () {
+  const CHATBASE_ID = "Yb5-ZOPsnSt9Ju6r3P7C7";
+  const DELAY_MS = 10000;
+  const CONTEXT_SENT_KEY = "integral_chatbase_context_sent_v1";
+
+  function getUtm(searchParams, key) {
+    const v = searchParams.get(key);
+    return v && v.trim() ? v.trim() : null;
+  }
+
+  function buildContextPayload() {
+    const sp = new URLSearchParams(window.location.search || "");
+    const payload = {
+      _meta: "context",
+      url: window.location.href,
+      path: window.location.pathname || "/",
+      utm_source: getUtm(sp, "utm_source"),
+      utm_medium: getUtm(sp, "utm_medium"),
+      utm_campaign: getUtm(sp, "utm_campaign"),
+      utm_term: getUtm(sp, "utm_term"),
+      utm_content: getUtm(sp, "utm_content")
+    };
+
+    // Remove null keys to keep it short
+    Object.keys(payload).forEach((k) => payload[k] === null && delete payload[k]);
+
+    return payload;
+  }
+
+  function waitForChatbase(timeoutMs = 8000, intervalMs = 200) {
+    return new Promise((resolve, reject) => {
+      const start = Date.now();
+      const timer = setInterval(() => {
+        try {
+          // We consider chatbase "ready enough" if it is callable
+          if (typeof window.chatbase === "function") {
+            clearInterval(timer);
+            resolve();
+            return;
+          }
+        } catch (e) {}
+        if (Date.now() - start > timeoutMs) {
+          clearInterval(timer);
+          reject(new Error("Timed out waiting for Chatbase"));
+        }
+      }, intervalMs);
+    });
+  }
+
+  function sendContextOnce() {
+    try {
+      if (sessionStorage.getItem(CONTEXT_SENT_KEY) === "1") return;
+      sessionStorage.setItem(CONTEXT_SENT_KEY, "1");
+    } catch (e) {
+      // If sessionStorage is blocked, proceed without it (worst case: context may send more than once)
+    }
+
+    const payload = buildContextPayload();
+    const message = "INTEGRAL_CONTEXT:" + JSON.stringify(payload);
+
+    try {
+      // Most robust: send a string message
+      window.chatbase("sendMessage", message);
+    } catch (e) {
+      // Silent fail
+    }
+  }
+
+  function loadChatbaseEmbed() {
+    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id=CHATBASE_ID;script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+  }
+
+  window.addEventListener("load", function () {
+    setTimeout(function () {
+      loadChatbaseEmbed();
+      waitForChatbase().then(sendContextOnce).catch(function () {});
+    }, DELAY_MS);
+  });
+})();
+</script>
