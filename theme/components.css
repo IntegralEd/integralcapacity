@@ -315,7 +315,7 @@
   left: 0;
   color: var(--primary);
   font-weight: bold;
-  font-size: 1.25rem;
+  font-size: 2.5rem;
 }
 
 .service-card .service-list {
@@ -330,7 +330,7 @@
 }
 
 .service-card .service-list li::before {
-  font-size: 1rem;
+  font-size: 2rem;
 }
 
 /* ============================================
