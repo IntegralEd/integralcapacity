@@ -58,7 +58,8 @@ h2 {
 
 h3 {
   font-size: clamp(1.25rem, 2.5vw, 1.5rem);
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--primary);
 }
 
 h4 {
