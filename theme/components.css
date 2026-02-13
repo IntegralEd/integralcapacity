@@ -305,7 +305,7 @@
   padding: var(--spacing-sm) 0;
   padding-left: var(--spacing-lg);
   position: relative;
-  color: var(--text-secondary);
+  color: #000000;
   line-height: 1.7;
 }
 
