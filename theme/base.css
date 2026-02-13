@@ -41,6 +41,7 @@ h6 {
   line-height: 1.3;
   margin-bottom: var(--spacing-md);
   color: var(--text-primary);
+  text-wrap: balance;
 }
 
 h1 {
@@ -71,6 +72,7 @@ p {
   font-size: 16px;
   margin-bottom: var(--spacing-sm);
   max-width: 70ch;
+  text-wrap: pretty;
 }
 
 /* List Items */
@@ -78,6 +80,7 @@ li {
   color: #000000;
   font-size: 16px;
   line-height: 1.6;
+  text-wrap: pretty;
 }
 
 /* Links */
