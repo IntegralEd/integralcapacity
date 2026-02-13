@@ -30,6 +30,24 @@
   .section {
     padding: var(--spacing-2xl) 0;
   }
+
+  .container {
+    padding: 0 var(--spacing-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .section-compact {
+    padding: var(--spacing-md) 0;
+  }
+
+  .container {
+    padding: 0 var(--spacing-xs);
+  }
 }
 
 /* Utility Classes */

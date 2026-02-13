@@ -558,6 +558,11 @@
   /* Hero Mobile */
   .hero {
     min-height: 70vh;
+    padding-top: 60px;
+  }
+
+  .hero-content {
+    padding: var(--spacing-md);
   }
 
   .hero-buttons {
@@ -573,7 +578,94 @@
   }
 
   /* Cards Mobile */
+  .service-cards,
   .process-cards {
     grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .card,
+  .service-card,
+  .process-card {
+    padding: var(--spacing-md);
+  }
+
+  /* Container Mobile Padding */
+  .container {
+    padding: 0 var(--spacing-sm);
+  }
+
+  /* Content Sections Mobile */
+  .service-content,
+  .about-content,
+  .contact-content {
+    padding: 0 var(--spacing-sm);
+  }
+
+  /* Images and Icons Mobile */
+  .service-icon,
+  .process-icon,
+  .card-icon {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  /* Trust Strip Mobile */
+  .trust-strip {
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+
+  /* FAQ Mobile */
+  .faq-item {
+    padding: var(--spacing-sm);
+  }
+}
+
+/* Small Mobile Devices (phones in portrait) */
+@media (max-width: 480px) {
+  /* Tighter spacing for small screens */
+  .container {
+    padding: 0 var(--spacing-xs);
+  }
+
+  /* Hero adjustments */
+  .hero {
+    min-height: 60vh;
+    padding-top: 70px;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  /* Button sizing */
+  .btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9375rem;
+  }
+
+  /* Card spacing */
+  .service-cards,
+  .process-cards {
+    gap: var(--spacing-sm);
+  }
+
+  /* Typography */
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.125rem;
+  }
+
+  /* Navbar */
+  .nav-logo {
+    font-size: 1.125rem;
   }
 }
