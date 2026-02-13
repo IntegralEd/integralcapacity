@@ -45,13 +45,13 @@ h6 {
 
 h1 {
   font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 400;
+  font-weight: 700;
   letter-spacing: -0.02em;
 }
 
 h2 {
   font-size: clamp(1.75rem, 3.5vw, 2.25rem);
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: -0.01em;
 }
 
@@ -66,7 +66,8 @@ h4 {
 }
 
 p {
-  color: var(--text-secondary);
+  color: #000000;
+  font-size: 16px;
   margin-bottom: var(--spacing-sm);
   max-width: 70ch;
 }
