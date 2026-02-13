@@ -13,7 +13,7 @@
 
 /* Section Spacing */
 .section {
-  padding: var(--spacing-3xl) 0;
+  padding: var(--spacing-xl) 0;
   position: relative;
 }
 
@@ -22,13 +22,13 @@
 }
 
 .section-compact {
-  padding: var(--spacing-lg) 0;
+  padding: var(--spacing-sm) 0;
 }
 
 /* Responsive Section Spacing */
 @media (max-width: 768px) {
   .section {
-    padding: var(--spacing-2xl) 0;
+    padding: var(--spacing-lg) 0;
   }
 
   .container {
@@ -38,11 +38,11 @@
 
 @media (max-width: 480px) {
   .section {
-    padding: var(--spacing-xl) 0;
+    padding: var(--spacing-md) 0;
   }
 
   .section-compact {
-    padding: var(--spacing-md) 0;
+    padding: var(--spacing-xs) 0;
   }
 
   .container {
