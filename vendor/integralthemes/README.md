@@ -183,7 +183,101 @@ The theme provides these ready-to-use CSS components:
 **Lists**: `.service-list`
 **Content Wrappers**: `.service-content`, `.about-content`, `.contact-content`
 **FAQ**: `.faq-item`, `.faq-question`
+**Timeline**: `.timeline`, `.timeline-item`, `.timeline-marker`, `.timeline-content`
+**Outcomes**: `.outcomes-full` (centered list with checkmarks)
+**Photo Background**: `.photo-background-section` (full-width section with custom background)
 **Utilities**: `.text-center`, `.mt-1`, `.mb-2`, etc.
+
+#### Timeline Component
+
+A vertical timeline with numbered markers and optional icons. Perfect for process flows, step-by-step guides, or project milestones.
+
+**HTML Structure:**
+```html
+<div class="timeline">
+  <div class="timeline-item">
+    <div class="timeline-marker">1</div>
+    <div class="timeline-content">
+      <h3>Discovery Phase</h3>
+      <p>Understanding your goals and requirements through stakeholder interviews.</p>
+    </div>
+    <div class="timeline-icon-wrapper">
+      <img src="/path/to/icon.svg" alt="Discovery" class="timeline-icon">
+    </div>
+  </div>
+  <!-- More timeline-items... -->
+</div>
+```
+
+**Features:**
+- 3-column grid layout (marker, content, optional icon)
+- Numbered circular markers with connecting lines (140px desktop, 180px mobile)
+- Uses `--primary` color variable for theming
+- Responsive: Collapses to 2-column on mobile, hides icons
+- Connecting lines automatically adjust for last item
+
+#### Outcomes Full Component
+
+Centered outcomes list with circular checkmark badges. Alternative to grid layouts when you want a focused, vertical presentation.
+
+**HTML Structure:**
+```html
+<section class="section" id="outcomes">
+  <div class="container">
+    <div class="outcomes-full">
+      <h2>What You'll Achieve</h2>
+      <ul class="service-list">
+        <li>Clear strategic roadmap aligned to your goals</li>
+        <li>Measurable KPIs tied to business outcomes</li>
+        <li>Implementation-ready plans with timelines</li>
+      </ul>
+    </div>
+  </div>
+</section>
+```
+
+**Features:**
+- Max-width 900px, centered layout
+- Circular checkmark badges (40px) above each item
+- Uses `--primary` color for checkmarks
+- Font size 1.125rem, weight 500 for emphasis
+- Works with `.service-list` or plain `<ul>`
+
+#### Photo Background Section
+
+Full-width section with custom background image overlay. Ideal for hero-style call-to-action sections or problem statements.
+
+**HTML Structure:**
+```html
+<section class="photo-background-section">
+  <div class="container">
+    <div class="content">
+      <h2>Your Challenge, Our Solution</h2>
+      <p>We help organizations navigate complex growth challenges with data-driven strategies.</p>
+    </div>
+  </div>
+</section>
+```
+
+**CSS Customization:**
+```css
+/* In your site.css, set the background image */
+:root {
+  --photo-bg-image: url('../assets/your-background.png');
+}
+
+/* Or target specific section */
+.photo-background-section {
+  background-image: url('../assets/your-background.png');
+}
+```
+
+**Features:**
+- Uses CSS variable `--photo-bg-image` for easy customization
+- Background covers full width with `top right` positioning
+- Content constrained to 600px max-width for readability
+- White text overlay (ensure background image has sufficient contrast)
+- Responsive: Full-width content on mobile
 
 ### JavaScript Widgets
 
