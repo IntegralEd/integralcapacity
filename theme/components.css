@@ -598,7 +598,7 @@
   left: 50%;
   transform: translateX(-50%);
   width: 4px;
-  height: calc(var(--spacing-xl) + var(--spacing-lg));
+  height: 140px;
   background: var(--primary);
   z-index: 1;
 }
@@ -632,6 +632,95 @@
   width: 96px;
   height: 96px;
   opacity: 0.85;
+}
+
+/* ============================================
+   OUTCOMES FULL
+   ============================================ */
+
+.outcomes-full {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.outcomes-full h2 {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.outcomes-full ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.outcomes-full ul li {
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.8;
+  margin-bottom: var(--spacing-lg);
+  display: block;
+  text-align: center;
+}
+
+.outcomes-full ul li::before {
+  content: '✓';
+  display: block;
+  width: 40px;
+  height: 40px;
+  background: var(--primary);
+  color: white;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  font-weight: bold;
+  line-height: 40px;
+  text-align: center;
+  margin: 0 auto var(--spacing-sm) auto;
+}
+
+/* Override service-list defaults for outcomes-full */
+.outcomes-full .service-list li {
+  padding: 0;
+  padding-left: 0;
+}
+
+.outcomes-full .service-list li::before {
+  position: static;
+  left: auto;
+}
+
+/* ============================================
+   PHOTO BACKGROUND SECTION
+   ============================================ */
+
+.photo-background-section {
+  background-image: var(--photo-bg-image, none);
+  background-size: cover;
+  background-position: top right;
+  background-repeat: no-repeat;
+  padding: var(--spacing-xl) 0;
+  position: relative;
+}
+
+.photo-background-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.photo-background-section .content {
+  max-width: 600px;
+}
+
+.photo-background-section h2,
+.photo-background-section p {
+  color: white;
+  text-align: left;
+}
+
+.photo-background-section h2 {
+  margin-bottom: var(--spacing-md);
 }
 
 /* ============================================
@@ -751,7 +840,12 @@
   }
 
   .timeline-item:not(:last-child) .timeline-marker::after {
-    height: calc(var(--spacing-lg) + var(--spacing-md));
+    height: 180px;
+  }
+
+  /* Photo Background Mobile */
+  .photo-background-section .content {
+    max-width: 100%;
   }
 }
 
