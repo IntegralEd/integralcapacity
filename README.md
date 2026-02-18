@@ -279,6 +279,321 @@ Full-width section with custom background image overlay. Ideal for hero-style ca
 - White text overlay (ensure background image has sufficient contrast)
 - Responsive: Full-width content on mobile
 
+---
+
+## Component Template Library
+
+Copy-paste ready HTML templates for all available components. Replace placeholder content with your own.
+
+### Navigation
+
+```html
+<nav class="navbar" id="navbar">
+  <div class="container nav-container">
+    <a href="index.html" class="nav-logo">Your Brand Name</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#home" class="nav-link">Home</a></li>
+      <li><a href="#services" class="nav-link">Services</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+```
+
+### Hero Section (Standard)
+
+```html
+<section class="hero" id="home">
+  <div class="container">
+    <div class="hero-content">
+      <h1>Your Main Headline</h1>
+      <h2>Optional secondary tagline for additional context</h2>
+      <p class="hero-subtitle">
+        Supporting description that explains your value proposition in 1-2 sentences.
+      </p>
+      <div class="hero-buttons">
+        <a href="#contact" class="btn btn-primary">Get Started</a>
+        <a href="#services" class="btn btn-secondary">Learn More</a>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+### Service Cards Grid
+
+```html
+<section class="section" id="services">
+  <div class="container">
+    <div class="service-content">
+      <h2 class="text-center">Our Services</h2>
+
+      <div class="service-cards">
+        <!-- Card 1 -->
+        <div class="service-card">
+          <img src="/vendor/integralthemes/assets/icons/launch.svg" alt="Service 1" class="service-icon" role="img">
+          <h3>Service Name</h3>
+          <ul class="service-list">
+            <li>Brief service description or tagline</li>
+            <li>Key feature or benefit one</li>
+            <li>Key feature or benefit two</li>
+            <li>Key feature or benefit three</li>
+          </ul>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="service-card">
+          <img src="/vendor/integralthemes/assets/icons/design.svg" alt="Service 2" class="service-icon" role="img">
+          <h3>Another Service</h3>
+          <ul class="service-list">
+            <li>Brief service description or tagline</li>
+            <li>Key feature or benefit one</li>
+            <li>Key feature or benefit two</li>
+            <li>Key feature or benefit three</li>
+          </ul>
+        </div>
+
+        <!-- Add more cards as needed -->
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+### Process Cards (How We Work)
+
+```html
+<section class="section section-alt" id="process">
+  <div class="container">
+    <div class="service-content">
+      <h2 class="text-center">How We Work</h2>
+
+      <div class="process-cards">
+        <!-- Step 1 -->
+        <div class="process-card">
+          <div class="card-number">1</div>
+          <img src="/vendor/integralthemes/assets/icons/discuss.svg" alt="Discovery" class="process-icon" role="img">
+          <h4 class="card-title">Discovery</h4>
+          <p class="card-description">We start by understanding your goals and challenges through collaborative discussion.</p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="process-card">
+          <div class="card-number">2</div>
+          <img src="/vendor/integralthemes/assets/icons/define.svg" alt="Define" class="process-icon" role="img">
+          <h4 class="card-title">Define</h4>
+          <p class="card-description">Together we define clear objectives and success criteria.</p>
+        </div>
+
+        <!-- Add more steps (design, build, launch, tune) -->
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+### Timeline
+
+```html
+<section class="section">
+  <div class="container">
+    <h2 class="text-center">Our Process</h2>
+
+    <div class="timeline">
+      <!-- Step 1 -->
+      <div class="timeline-item">
+        <div class="timeline-marker">1</div>
+        <div class="timeline-content">
+          <h3>Discovery Phase</h3>
+          <p>Understanding your goals and requirements through stakeholder interviews and research.</p>
+        </div>
+        <div class="timeline-icon-wrapper">
+          <img src="/path/to/icon.svg" alt="Discovery" class="timeline-icon">
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="timeline-item">
+        <div class="timeline-marker">2</div>
+        <div class="timeline-content">
+          <h3>Planning Phase</h3>
+          <p>Creating detailed roadmaps and timelines aligned to your business objectives.</p>
+        </div>
+        <div class="timeline-icon-wrapper">
+          <img src="/path/to/icon.svg" alt="Planning" class="timeline-icon">
+        </div>
+      </div>
+
+      <!-- Add more timeline items -->
+    </div>
+  </div>
+</section>
+```
+
+### Outcomes Full (Centered List with Checkmarks)
+
+```html
+<section class="section" id="outcomes">
+  <div class="container">
+    <div class="outcomes-full">
+      <h2>What You'll Achieve</h2>
+      <ul class="service-list">
+        <li>Clear strategic roadmap aligned to your goals</li>
+        <li>Measurable KPIs tied to business outcomes</li>
+        <li>Implementation-ready plans with timelines</li>
+        <li>Ongoing support and optimization</li>
+        <li>Results you can measure and scale</li>
+      </ul>
+    </div>
+  </div>
+</section>
+```
+
+### Photo Background Section
+
+```html
+<section class="photo-background-section">
+  <div class="container">
+    <div class="content">
+      <h2>Your Challenge, Our Solution</h2>
+      <p>We help organizations navigate complex growth challenges with data-driven strategies and proven methodologies.</p>
+    </div>
+  </div>
+</section>
+```
+
+**Add to your site.css:**
+```css
+:root {
+  --photo-bg-image: url('../assets/your-background.png');
+}
+```
+
+### Trust Strip
+
+```html
+<section class="section section-compact section-alt">
+  <div class="container">
+    <div class="trust-strip">
+      <span>Trusted by 100+ organizations</span>
+      <span>•</span>
+      <span>10+ years experience</span>
+      <span>•</span>
+      <span>$50M+ in client results</span>
+    </div>
+  </div>
+</section>
+```
+
+### Content Section (Text + Paragraph)
+
+```html
+<section class="section">
+  <div class="container">
+    <div class="service-content text-center">
+      <h2>About Our Approach</h2>
+      <p>We believe that great work starts with deep understanding. Our team combines strategic thinking with practical execution to deliver results that matter.</p>
+      <p>With over a decade of experience, we've helped organizations across industries achieve their most ambitious goals.</p>
+    </div>
+  </div>
+</section>
+```
+
+### FAQ Section
+
+```html
+<section class="section">
+  <div class="container">
+    <div class="service-content">
+      <h2 class="text-center">Frequently Asked Questions</h2>
+
+      <div class="mt-3">
+        <div class="faq-item">
+          <h4 class="faq-question">What services do you offer?</h4>
+          <p>We provide comprehensive strategy consulting, implementation support, and ongoing optimization across digital channels.</p>
+        </div>
+
+        <div class="faq-item">
+          <h4 class="faq-question">How long does a typical project take?</h4>
+          <p>Most engagements range from 8-12 weeks, though timelines vary based on scope and complexity.</p>
+        </div>
+
+        <div class="faq-item">
+          <h4 class="faq-question">Do you work with small businesses?</h4>
+          <p>Yes, we work with organizations of all sizes, from startups to enterprise companies.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+### CTA Section
+
+```html
+<section class="section section-alt" id="contact">
+  <div class="container">
+    <div class="service-content text-center">
+      <h2>Ready to Get Started?</h2>
+      <p class="mb-3">Let's discuss how we can help you achieve your goals. Schedule a free consultation today.</p>
+      <div class="hero-buttons">
+        <a href="/contact.html" class="btn btn-primary">Book a Call</a>
+        <a href="mailto:info@example.com" class="btn btn-secondary">Send Email</a>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+### Footer
+
+```html
+<footer class="footer">
+  <div class="container footer-content">
+    <p class="footer-text">
+      © 2026 Your Company Name. All rights reserved.
+      <a href="/privacy.html">Privacy Policy</a>
+    </p>
+  </div>
+</footer>
+```
+
+### Layout Utilities
+
+**Section Backgrounds:**
+- `.section` - Standard white background with spacing
+- `.section-alt` - Alternate gray background (#fafafa)
+- `.section-compact` - Reduced padding for tighter sections
+
+**Text Alignment:**
+- `.text-center` - Center-align text
+- `.text-primary` - Primary text color
+- `.text-secondary` - Secondary (lighter) text color
+
+**Spacing Utilities:**
+- `.mt-1`, `.mt-2`, `.mt-3` - Margin top (small, medium, large)
+- `.mb-1`, `.mb-2`, `.mb-3` - Margin bottom (small, medium, large)
+
+**Example Usage:**
+```html
+<section class="section section-alt">
+  <div class="container">
+    <div class="service-content text-center">
+      <h2 class="mb-3">Centered Headline with Bottom Margin</h2>
+      <p>Your content here...</p>
+    </div>
+  </div>
+</section>
+```
+
+---
+
 ### JavaScript Widgets
 
 #### Universal Chat Widget (Chatbase)
