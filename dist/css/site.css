@@ -82,3 +82,19 @@
     grid-column: 1 !important;
   }
 }
+
+/* ============================================
+   TWO-COLUMN LIST MODIFIER
+   ============================================ */
+
+.service-list-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 var(--spacing-xl);
+}
+
+@media (max-width: 768px) {
+  .service-list-two-col {
+    grid-template-columns: 1fr;
+  }
+}
