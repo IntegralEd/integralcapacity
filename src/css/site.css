@@ -88,13 +88,22 @@
    ============================================ */
 
 .service-list-two-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0 var(--spacing-xl);
+  column-count: 2;
+  column-gap: var(--spacing-xl);
+}
+
+.service-list-two-col li {
+  break-inside: avoid;
+}
+
+/* Prevent the hyphen in headings like "knowledge-rich" from acting as a line-break */
+.service-content h2 {
+  hyphens: none;
+  word-break: keep-all;
 }
 
 @media (max-width: 768px) {
   .service-list-two-col {
-    grid-template-columns: 1fr;
+    column-count: 1;
   }
 }
