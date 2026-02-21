@@ -3,3 +3,82 @@
  * The base theme is provided by vendor/integralthemes/theme/theme.css
  * Override CSS variables here: :root { --primary: #custom-color; }
  */
+
+/* ============================================
+   OUTCOMES GRID (brick masonry layout)
+   ============================================ */
+
+.outcomes-grid {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.outcomes-grid h2 {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.outcomes-grid ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--spacing-md);
+}
+
+.outcomes-grid ul li {
+  background: var(--bg-primary);
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.6;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  gap: var(--spacing-sm);
+}
+
+/* First row: 3 items spanning 2 columns each */
+.outcomes-grid ul li:nth-child(1) { grid-column: 1 / span 2; }
+.outcomes-grid ul li:nth-child(2) { grid-column: 3 / span 2; }
+.outcomes-grid ul li:nth-child(3) { grid-column: 5 / span 2; }
+
+/* Second row: 2 items staggered */
+.outcomes-grid ul li:nth-child(4) { grid-column: 2 / span 2; }
+.outcomes-grid ul li:nth-child(5) { grid-column: 4 / span 2; }
+
+.outcomes-grid ul li:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+}
+
+.outcomes-grid ul li::before {
+  content: '✓';
+  display: block;
+  width: 40px;
+  height: 40px;
+  background: var(--primary);
+  color: white;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  font-weight: bold;
+  line-height: 40px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .outcomes-grid ul {
+    grid-template-columns: 1fr;
+  }
+  .outcomes-grid ul li {
+    grid-column: 1 !important;
+  }
+}
