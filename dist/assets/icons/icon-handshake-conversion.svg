@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <title>Handshake representing sales conversion</title>
-  <path d="M6 16 L10 12 L14 16 L18 12 L22 16"/>
-  <path d="M6 16 L6 22 L10 22"/>
-  <path d="M22 16 L22 22 L18 22"/>
-  <path d="M10 12 L10 8 L14 8"/>
-  <path d="M18 12 L18 8 L14 8"/>
-  <circle cx="16" cy="20" r="2"/>
-</svg>

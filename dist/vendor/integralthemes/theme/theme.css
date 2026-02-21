@@ -1,0 +1,14 @@
+/**
+ * Integral Themes - Main Theme Import
+ *
+ * This is the single CSS file microsites should import.
+ * Imports tokens, base, layout, and components in the correct order.
+ *
+ * Usage in your microsite:
+ * <link rel="stylesheet" href="/vendor/integralthemes/theme/theme.css">
+ */
+
+@import "./tokens.css";
+@import "./base.css";
+@import "./layout.css";
+@import "./components.css";
