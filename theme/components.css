@@ -214,16 +214,8 @@
   color: var(--text-primary);
 }
 
-.hero h2 {
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-  margin-bottom: var(--spacing-md);
-  line-height: 1.6;
-}
-
 .hero-subtitle {
-  font-size: 1rem;
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
   color: var(--text-secondary);
   margin-bottom: var(--spacing-xl);
   line-height: 1.6;
@@ -339,11 +331,6 @@
 
 .service-card .service-list li::before {
   font-size: 1rem;
-}
-
-.service-card .service-list li:first-child {
-  font-weight: 500;
-  color: var(--text-primary);
 }
 
 /* ============================================
@@ -603,15 +590,15 @@
   z-index: 2;
 }
 
-/* Connecting line between timeline markers */
-.timeline-item:not(:last-child) .timeline-marker::after {
+/* Dynamic connector line — stretches from bottom of circle to top of next */
+.timeline-item:not(:last-child)::after {
   content: '';
   position: absolute;
-  top: 100%;
-  left: 50%;
+  top: 80px;
+  left: 40px;
   transform: translateX(-50%);
   width: 4px;
-  height: 140px;
+  bottom: calc(-1 * var(--spacing-xl));
   background: var(--primary);
   z-index: 1;
 }
@@ -645,95 +632,6 @@
   width: 96px;
   height: 96px;
   opacity: 0.85;
-}
-
-/* ============================================
-   OUTCOMES FULL
-   ============================================ */
-
-.outcomes-full {
-  max-width: 900px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.outcomes-full h2 {
-  text-align: center;
-  margin-bottom: var(--spacing-xl);
-}
-
-.outcomes-full ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  text-align: center;
-}
-
-.outcomes-full ul li {
-  font-size: 1.125rem;
-  font-weight: 500;
-  line-height: 1.8;
-  margin-bottom: var(--spacing-lg);
-  display: block;
-  text-align: center;
-}
-
-.outcomes-full ul li::before {
-  content: '✓';
-  display: block;
-  width: 40px;
-  height: 40px;
-  background: var(--primary);
-  color: white;
-  border-radius: 50%;
-  font-size: 1.25rem;
-  font-weight: bold;
-  line-height: 40px;
-  text-align: center;
-  margin: 0 auto var(--spacing-sm) auto;
-}
-
-/* Override service-list defaults for outcomes-full */
-.outcomes-full .service-list li {
-  padding: 0;
-  padding-left: 0;
-}
-
-.outcomes-full .service-list li::before {
-  position: static;
-  left: auto;
-}
-
-/* ============================================
-   PHOTO BACKGROUND SECTION
-   ============================================ */
-
-.photo-background-section {
-  background-image: var(--photo-bg-image, none);
-  background-size: cover;
-  background-position: top right;
-  background-repeat: no-repeat;
-  padding: var(--spacing-xl) 0;
-  position: relative;
-}
-
-.photo-background-section .container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.photo-background-section .content {
-  max-width: 600px;
-}
-
-.photo-background-section h2,
-.photo-background-section p {
-  color: white;
-  text-align: left;
-}
-
-.photo-background-section h2 {
-  margin-bottom: var(--spacing-md);
 }
 
 /* ============================================
@@ -834,31 +732,6 @@
   /* FAQ Mobile */
   .faq-item {
     padding: var(--spacing-sm);
-  }
-
-  /* Timeline Mobile */
-  .timeline-item {
-    grid-template-columns: 60px 1fr;
-    gap: var(--spacing-md);
-  }
-
-  .timeline-marker {
-    width: 60px;
-    height: 60px;
-    font-size: 1.5rem;
-  }
-
-  .timeline-icon-wrapper {
-    display: none;
-  }
-
-  .timeline-item:not(:last-child) .timeline-marker::after {
-    height: 180px;
-  }
-
-  /* Photo Background Mobile */
-  .photo-background-section .content {
-    max-width: 100%;
   }
 }
 
