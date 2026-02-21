@@ -137,3 +137,17 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================
+   FAQ / PROOF IN PRACTICE FIXES
+   ============================================ */
+
+/* Remove 70ch max-width so paragraphs fill the full card */
+.faq-item p {
+  max-width: none;
+  margin-bottom: var(--spacing-sm);
+}
+
+.faq-item p:last-child {
+  margin-bottom: 0;
+}
