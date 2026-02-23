@@ -733,6 +733,11 @@
   .faq-item {
     padding: var(--spacing-sm);
   }
+
+  /* Timeline Mobile — hide icons to keep layout clean */
+  .timeline-icon-wrapper {
+    display: none;
+  }
 }
 
 /* Small Mobile Devices (phones in portrait) */
