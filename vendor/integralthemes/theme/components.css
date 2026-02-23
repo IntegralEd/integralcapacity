@@ -734,9 +734,13 @@
     padding: var(--spacing-sm);
   }
 
-  /* Timeline Mobile — hide icons to keep layout clean */
+  /* Timeline Mobile — hide icons, expand content to fill full width */
   .timeline-icon-wrapper {
     display: none;
+  }
+
+  .timeline-item {
+    grid-template-columns: 80px 1fr;
   }
 }
 
