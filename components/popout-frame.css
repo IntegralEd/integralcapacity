@@ -1,0 +1,248 @@
+/**
+ * Popout Frame Component
+ *
+ * Reusable modal/overlay system for embedding content in microsites.
+ * Supports video (YouTube/Vimeo), PDF galleries, and Storyline modules.
+ *
+ * Usage:
+ *   <link rel="stylesheet" href="/vendor/integralthemes/components/popout-frame.css">
+ *
+ * HTML pattern:
+ *   <div id="my-modal" class="popout-frame [popout-video|popout-storyline]">
+ *     <div class="popout-inner">
+ *       <button class="popout-close" onclick="PopoutFrame.close('my-modal')">&#10005;</button>
+ *       <!-- iframe or .pdf-viewer structure here -->
+ *     </div>
+ *   </div>
+ *
+ * JS API (requires popout-frame.js):
+ *   PopoutFrame.open('my-modal')
+ *   PopoutFrame.close('my-modal')
+ *   openVideoModal('video-modal', 'https://www.youtube.com/embed/VIDEO_ID')
+ *   PdfGallery.open('path/to/file.pdf')
+ *   PdfGallery.next() / prev() / toggleZoom() / close()
+ */
+
+/* ── Backdrop ──────────────────────────────────────────────────────────────── */
+.popout-frame {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+.popout-frame.active {
+  display: flex;
+}
+
+/* ── Inner box ─────────────────────────────────────────────────────────────── */
+.popout-inner {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  height: 88vh;
+  background: #252535;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Close button ──────────────────────────────────────────────────────────── */
+.popout-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background var(--transition-fast, 150ms ease);
+}
+.popout-close:hover {
+  background: rgba(0, 0, 0, 0.88);
+}
+
+/* ── Video variant — 16:9, wider ───────────────────────────────────────────── */
+.popout-video .popout-inner {
+  max-width: 1100px;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+.popout-video .popout-inner iframe {
+  flex: 1;
+  width: 100%;
+  border: none;
+  min-height: 0;
+  display: block;
+}
+
+/* ── Storyline variant — 4:3 default, override per-site as needed ──────────── */
+.popout-storyline .popout-inner {
+  max-width: 1060px;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  background: #fff;
+}
+.popout-storyline .popout-inner iframe {
+  flex: 1;
+  width: 100%;
+  border: none;
+  min-height: 0;
+  display: block;
+}
+
+/* ── PDF Gallery variant ───────────────────────────────────────────────────── */
+.pdf-viewer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.pdf-stage {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #252535;
+}
+
+.pdf-canvas-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.pdf-canvas-wrap canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.55);
+  border-radius: 2px;
+}
+
+/* Controls bar */
+.pdf-controls {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: #fff;
+  border-radius: 0 0 8px 8px;
+}
+.pdf-controls-spacer,
+.pdf-controls-actions {
+  flex: 1;
+}
+.pdf-controls-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+.pdf-controls-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Prev / Next buttons */
+.pdf-nav-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 2px solid var(--primary, #600b68);
+  background: transparent;
+  color: var(--primary, #600b68);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background var(--transition-fast, 150ms ease),
+              color var(--transition-fast, 150ms ease),
+              transform 0.1s ease;
+}
+.pdf-nav-btn:hover:not(:disabled) {
+  background: var(--primary, #600b68);
+  color: #fff;
+  transform: scale(1.08);
+}
+.pdf-nav-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+.pdf-nav-btn:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+/* Page counter */
+.pdf-page-info {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #555;
+  min-width: 64px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+/* Expand / Fit zoom toggle */
+.pdf-zoom-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 20px;
+  border: 2px solid var(--primary, #600b68);
+  background: transparent;
+  color: var(--primary, #600b68);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  line-height: 1;
+  transition: background var(--transition-fast, 150ms ease),
+              color var(--transition-fast, 150ms ease),
+              transform 0.1s ease;
+}
+.pdf-zoom-btn:hover {
+  background: var(--primary, #600b68);
+  color: #fff;
+}
+.pdf-zoom-btn:active {
+  transform: scale(0.94);
+}
+.pdf-zoom-btn svg {
+  flex-shrink: 0;
+}
+
+/* Zoom mode — stage scrollable, active wrap flows with content */
+.pdf-stage.pdf-zoomed {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.pdf-stage.pdf-zoomed .pdf-canvas-wrap {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  padding: 24px;
+  justify-content: flex-start;
+}
