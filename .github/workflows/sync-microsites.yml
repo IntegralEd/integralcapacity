@@ -21,6 +21,8 @@ jobs:
           - IntegralEd/integralcapacity
           - IntegralEd/integralplatforms
           - IntegralEd/integralelearning
+          - IntegralEd/integralmediadesign
+          - IntegralEd/mathbalance
 
     steps:
       - name: Checkout integralthemes (source)
@@ -99,7 +101,6 @@ jobs:
           echo "This microsite does not yet have vendor/integralthemes."
           echo "To enable automatic theme sync, run:"
           echo ""
-          echo "  cd ${{ matrix.repo }}"
           echo "  git subtree add --prefix vendor/integralthemes \\"
           echo "    git@github.com:IntegralEd/integralthemes.git main --squash"
           echo ""
