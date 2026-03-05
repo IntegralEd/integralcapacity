@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      # Don't cancel other jobs if one fails
       fail-fast: false
       matrix:
         repo:
@@ -58,37 +57,23 @@ jobs:
             echo "This microsite is not yet configured to use the shared theme."
           fi
 
-      - name: Sync theme via git subtree pull
+      - name: Sync theme files
         if: steps.check_vendor.outputs.ready == 'true'
         run: |
+          # rsync works regardless of how vendor was originally set up
+          # (direct copy or git subtree — both are handled correctly)
+          rsync -av --delete integralthemes/. microsite/vendor/integralthemes/
+
           cd microsite
+          git add vendor/integralthemes/
 
-          # Add integralthemes remote
-          git remote add integralthemes ../integralthemes || true
-          git fetch integralthemes
-
-          # Attempt subtree pull
-          echo "Pulling theme updates..."
-          git subtree pull --prefix vendor/integralthemes integralthemes main --squash -m "$(cat <<'EOF'
-          Update vendored integralthemes from upstream
-
-          Theme sync from integralthemes@${{ github.sha }}
-
-          Co-Authored-By: Integral Themes Bot <noreply@integral-ed.com>
-          EOF
-          )"
-
-      - name: Push changes to microsite
-        if: steps.check_vendor.outputs.ready == 'true'
-        run: |
-          cd microsite
-
-          # Check if there are changes to push
-          if git diff --quiet origin/main; then
-            echo "✓ No changes to push (already up to date)"
+          if git diff --cached --quiet; then
+            echo "✓ vendor/integralthemes already up to date — nothing to commit"
           else
-            echo "✓ Pushing theme updates to ${{ matrix.repo }}"
+            git commit -m "Update vendored integralthemes from upstream ($(echo ${{ github.sha }} | cut -c1-7))"
+            echo "✓ Committed theme updates"
             git push origin main
+            echo "✓ Pushed to ${{ matrix.repo }}"
           fi
 
       - name: Report skip
@@ -99,10 +84,12 @@ jobs:
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo ""
           echo "This microsite does not yet have vendor/integralthemes."
-          echo "To enable automatic theme sync, run:"
+          echo "To enable automatic theme sync, create the directory and"
+          echo "copy the integralthemes source into it:"
           echo ""
-          echo "  git subtree add --prefix vendor/integralthemes \\"
-          echo "    git@github.com:IntegralEd/integralthemes.git main --squash"
+          echo "  mkdir -p vendor/integralthemes"
+          echo "  cp -r path/to/integralthemes/. vendor/integralthemes/"
+          echo "  git add vendor/integralthemes && git commit -m 'Add integralthemes vendor'"
           echo ""
           echo "This is expected during rollout and is not an error."
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
