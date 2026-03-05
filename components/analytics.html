@@ -1,0 +1,58 @@
+<!--
+  Integral Ed — GA4 Analytics (G-ZYXGKC3ZQ5)
+
+  Injected into every microsite's <head> at build time by build.js.
+  Before this block, build.js injects:
+    <script>window.IE_SITE_NAME = 'site-slug';</script>
+
+  Features:
+  - Double-injection guard (window.__IE_GA4_INITIALIZED__)
+  - site_name sent with every event (hostname fallback if IE_SITE_NAME not set)
+  - SPA / History API support: fires page_view on pushState + popstate
+  - Fails silently on any error
+
+  To override site_name per-page (rare): set window.IE_SITE_NAME before </head>.
+-->
+
+<!-- GA4: Integral Ed unified property -->
+<script id="ga4-gtag-loader" async src="https://www.googletagmanager.com/gtag/js?id=G-ZYXGKC3ZQ5"></script>
+<script id="ga4-gtag-init">
+(function() {
+  // Guard against double-injection (e.g. dev hot-reload, script included twice)
+  if (window.__IE_GA4_INITIALIZED__) return;
+  window.__IE_GA4_INITIALIZED__ = true;
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ window.dataLayer.push(arguments); }
+  window.gtag = window.gtag || gtag;
+
+  // site_name: set by build.js via window.IE_SITE_NAME, else hostname
+  var siteName = (window.IE_SITE_NAME && String(window.IE_SITE_NAME).trim())
+    || window.location.hostname;
+
+  gtag('js', new Date());
+  gtag('config', 'G-ZYXGKC3ZQ5', {
+    send_page_view: true,
+    site_name: siteName
+  });
+
+  // SPA / History API navigation support
+  function sendPageView() {
+    try {
+      gtag('event', 'page_view', {
+        page_title:    document.title,
+        page_location: window.location.href,
+        page_path:     window.location.pathname + window.location.search,
+        site_name:     siteName
+      });
+    } catch(e) { /* fail silently */ }
+  }
+
+  var _pushState = history.pushState;
+  history.pushState = function() {
+    _pushState.apply(history, arguments);
+    sendPageView();
+  };
+  window.addEventListener('popstate', sendPageView);
+})();
+</script>
