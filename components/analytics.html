@@ -9,8 +9,11 @@
   - Double-injection guard (window.__IE_GA4_INITIALIZED__)
   - site_name sent with every event (hostname fallback if IE_SITE_NAME not set)
   - SPA / History API support: fires page_view on pushState + popstate
+  - Cross-domain linker: appends/reads _gl on links between Integral Ed domains
+    so session, user ID, and UTM attribution persist across domain hops
   - Fails silently on any error
 
+  Cross-domain domains list: update linker.domains below if a new domain goes live.
   To override site_name per-page (rare): set window.IE_SITE_NAME before </head>.
 -->
 
@@ -30,10 +33,25 @@
   var siteName = (window.IE_SITE_NAME && String(window.IE_SITE_NAME).trim())
     || window.location.hostname;
 
+  // Cross-domain domains — GA4 linker appends _gl to outbound links pointing here
+  // and reads _gl on arrival, preserving session/user/UTM across domain hops.
+  // Add new domains to this list when a microsite goes live on a custom domain.
+  var IE_DOMAINS = [
+    'integral-ed.com',              'www.integral-ed.com',
+    'edugrowthstrategy.com',        'www.edugrowthstrategy.com',
+    'integralcareerpathways.com',   'www.integralcareerpathways.com',
+    'integralcapacity.com',         'www.integralcapacity.com',
+    'integralplatforms.com',        'www.integralplatforms.com',
+    'integralelearning.com',        'www.integralelearning.com',
+    'integralmediadesign.com',      'www.integralmediadesign.com',
+    'mathbalance.com',              'www.mathbalance.com'
+  ];
+
   gtag('js', new Date());
   gtag('config', 'G-ZYXGKC3ZQ5', {
     send_page_view: true,
-    site_name: siteName
+    site_name: siteName,
+    linker: { domains: IE_DOMAINS }
   });
 
   // SPA / History API navigation support
