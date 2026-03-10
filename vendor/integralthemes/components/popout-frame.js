@@ -36,18 +36,20 @@
  *
  *   <!-- Video -->
  *   <button onclick="openVideoModal('vid', 'https://www.youtube.com/embed/ID')">Play</button>
- *   <div id="vid" class="popout-frame popout-video">
+ *   <div id="vid" class="popout-frame popout-video" role="dialog" aria-modal="true" aria-label="Video title">
  *     <div class="popout-inner">
- *       <button class="popout-close" onclick="closeVideoModal('vid')">&#10005;</button>
- *       <iframe data-video-src src="" title="Video" allow="autoplay" allowfullscreen></iframe>
+ *       <button class="popout-close" onclick="closeVideoModal('vid')" aria-label="Close">&#10005;</button>
+ *       <iframe data-video-src src="" title="Video"
+ *         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+ *         referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
  *     </div>
  *   </div>
  *
  *   <!-- PDF Gallery -->
  *   <button onclick="PdfGallery.open('path/to/file.pdf')">View PDF</button>
- *   <div id="pdf-modal" class="popout-frame" data-pdf-src="path/to/file.pdf">
+ *   <div id="pdf-modal" class="popout-frame" role="dialog" aria-modal="true" aria-label="Document title" data-pdf-src="path/to/file.pdf">
  *     <div class="popout-inner">
- *       <button class="popout-close" onclick="PdfGallery.close()">&#10005;</button>
+ *       <button class="popout-close" onclick="PdfGallery.close()" aria-label="Close">&#10005;</button>
  *       <div class="pdf-viewer">
  *         <div class="pdf-stage" id="pdfStage">
  *           <div class="pdf-canvas-wrap" id="pdfWrapA"><canvas id="pdfCanvasA"></canvas></div>
@@ -56,9 +58,9 @@
  *         <div class="pdf-controls">
  *           <div class="pdf-controls-spacer"></div>
  *           <div class="pdf-controls-nav">
- *             <button class="pdf-nav-btn" id="pdfPrev" onclick="PdfGallery.prev()" disabled>&#8592;</button>
+ *             <button class="pdf-nav-btn" id="pdfPrev" onclick="PdfGallery.prev()" aria-label="Previous page" disabled>&#8592;</button>
  *             <span class="pdf-page-info" id="pdfPageInfo">&#8212; / &#8212;</span>
- *             <button class="pdf-nav-btn" id="pdfNext" onclick="PdfGallery.next()" disabled>&#8594;</button>
+ *             <button class="pdf-nav-btn" id="pdfNext" onclick="PdfGallery.next()" aria-label="Next page" disabled>&#8594;</button>
  *           </div>
  *           <div class="pdf-controls-actions">
  *             <button class="pdf-zoom-btn" id="pdfZoom" onclick="PdfGallery.toggleZoom()">
@@ -233,8 +235,14 @@
       var prev = document.getElementById('pdfPrev');
       var next = document.getElementById('pdfNext');
       if (info) info.textContent = current + ' / ' + total;
-      if (prev) prev.disabled   = current <= 1;
-      if (next) next.disabled   = current >= total;
+      if (prev) {
+        prev.disabled = current <= 1;
+        prev.setAttribute('aria-label', current <= 1 ? 'Previous page (unavailable)' : 'Previous page');
+      }
+      if (next) {
+        next.disabled = current >= total;
+        next.setAttribute('aria-label', current >= total ? 'Next page (unavailable)' : 'Next page');
+      }
       updateZoomButton();
     }
 
