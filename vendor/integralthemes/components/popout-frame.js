@@ -11,11 +11,25 @@
  *
  * Usage examples:
  *
- *   <!-- Generic (Storyline, etc.) -->
+ *   <!-- Generic (Storyline, etc.) with action bar (close + fullscreen) -->
  *   <button onclick="PopoutFrame.open('sl-modal')">Launch Module</button>
  *   <div id="sl-modal" class="popout-frame popout-storyline">
  *     <div class="popout-inner">
- *       <button class="popout-close" onclick="PopoutFrame.close('sl-modal')">&#10005;</button>
+ *       <div class="popout-actions">
+ *         <button class="popout-fullscreen" onclick="toggleModalFullscreen('sl-modal')" aria-label="Toggle fullscreen">
+ *           <svg class="icon-expand" width="14" height="14" viewBox="0 0 16 16" fill="none"
+ *             stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+ *             <polyline points="1,5 1,1 5,1"/><polyline points="11,1 15,1 15,5"/>
+ *             <polyline points="15,11 15,15 11,15"/><polyline points="5,15 1,15 1,11"/>
+ *           </svg>
+ *           <svg class="icon-compress" width="14" height="14" viewBox="0 0 16 16" fill="none"
+ *             stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+ *             <polyline points="5,1 5,5 1,5"/><polyline points="15,5 11,5 11,1"/>
+ *             <polyline points="11,15 11,11 15,11"/><polyline points="1,11 5,11 5,15"/>
+ *           </svg>
+ *         </button>
+ *         <button class="popout-close" onclick="PopoutFrame.close('sl-modal')" aria-label="Close">&#10005;</button>
+ *       </div>
  *       <iframe src="https://..." title="Module"></iframe>
  *     </div>
  *   </div>
@@ -295,6 +309,29 @@
     };
   })();
 
+  // ── Fullscreen Toggle ──────────────────────────────────────────────────────
+
+  function toggleModalFullscreen(id) {
+    var modal = document.getElementById(id);
+    if (!modal) return;
+    var inner = modal.querySelector('.popout-inner');
+    var btn   = modal.querySelector('.popout-fullscreen');
+    if (!document.fullscreenElement) {
+      inner.requestFullscreen().then(function () {
+        if (btn) btn.classList.add('is-fullscreen');
+      }).catch(function () {});
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+  // Sync fullscreen button state when user exits via Escape or browser controls
+  document.addEventListener('fullscreenchange', function () {
+    document.querySelectorAll('.popout-fullscreen').forEach(function (btn) {
+      btn.classList.toggle('is-fullscreen', !!document.fullscreenElement);
+    });
+  });
+
   // ── Global close handlers ──────────────────────────────────────────────────
 
   document.addEventListener('click', function (e) {
@@ -332,9 +369,10 @@
 
   // ── Exports ────────────────────────────────────────────────────────────────
 
-  global.PopoutFrame     = PopoutFrame;
-  global.openVideoModal  = openVideoModal;
-  global.closeVideoModal = closeVideoModal;
-  global.PdfGallery      = PdfGallery;
+  global.PopoutFrame            = PopoutFrame;
+  global.openVideoModal         = openVideoModal;
+  global.closeVideoModal        = closeVideoModal;
+  global.toggleModalFullscreen  = toggleModalFullscreen;
+  global.PdfGallery             = PdfGallery;
 
 })(window);

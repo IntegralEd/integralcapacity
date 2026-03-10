@@ -19,8 +19,18 @@
  *   PopoutFrame.open('my-modal')
  *   PopoutFrame.close('my-modal')
  *   openVideoModal('video-modal', 'https://www.youtube.com/embed/VIDEO_ID')
+ *   toggleModalFullscreen('my-modal')
  *   PdfGallery.open('path/to/file.pdf')
  *   PdfGallery.next() / prev() / toggleZoom() / close()
+ *
+ * Action bar pattern (close + fullscreen buttons grouped inside .popout-inner):
+ *   <div class="popout-actions">
+ *     <button class="popout-fullscreen" onclick="toggleModalFullscreen('my-modal')" aria-label="Toggle fullscreen">
+ *       <svg class="icon-expand" ...>...</svg>
+ *       <svg class="icon-compress" ...>...</svg>
+ *     </button>
+ *     <button class="popout-close" onclick="PopoutFrame.close('my-modal')" aria-label="Close">&#10005;</button>
+ *   </div>
  */
 
 /* ── Backdrop ──────────────────────────────────────────────────────────────── */
@@ -74,6 +84,75 @@
 .popout-close:hover {
   background: rgba(0, 0, 0, 0.88);
 }
+
+/* ── Action bar — groups close + fullscreen buttons ───────────────────────── */
+/* Place .popout-actions inside .popout-inner so it survives requestFullscreen() */
+.popout-actions {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  pointer-events: all;
+}
+
+/* Vendor sets .popout-close { position: absolute } globally — cancel it
+   so the button sits in the flex row as a normal flex child */
+.popout-actions .popout-close {
+  position: relative;
+  top: auto;
+  right: auto;
+}
+
+/* Both buttons share the same circular style */
+.popout-actions button {
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1rem;
+  line-height: 1;
+  transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
+}
+.popout-actions button:hover {
+  background: rgba(0, 0, 0, 0.82);
+  border-color: #fff;
+  transform: scale(1.08);
+}
+
+/* Entrance pulse — fires each time modal opens (.active toggled on) */
+.popout-frame.active .popout-actions .popout-fullscreen {
+  animation: popout-btn-entrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s both;
+}
+.popout-frame.active .popout-actions .popout-close {
+  animation: popout-btn-entrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.18s both;
+}
+
+@keyframes popout-btn-entrance {
+  0%   { opacity: 0; transform: scale(0.4);
+         box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6); }
+  55%  { opacity: 1; transform: scale(1.12); }
+  75%  { transform: scale(0.96);
+         box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+  100% { transform: scale(1);
+         box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+/* Fullscreen icon swap: expand shown by default, compress shown when active */
+.popout-fullscreen .icon-expand   { display: flex; }
+.popout-fullscreen .icon-compress { display: none; }
+.popout-fullscreen.is-fullscreen .icon-expand   { display: none; }
+.popout-fullscreen.is-fullscreen .icon-compress { display: flex; }
 
 /* ── Video variant — 16:9, wider ───────────────────────────────────────────── */
 .popout-video .popout-inner {
