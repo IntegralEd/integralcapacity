@@ -427,7 +427,8 @@
 }
 
 .about-content p {
-  max-width: 100%;
+  color: var(--text-primary);
+  font-size: 16px;
 }
 
 /* ============================================
