@@ -650,7 +650,7 @@
   border-bottom: 1px solid #ebebeb;
 }
 
-.page-header + .section {
+.page-header + main > .section:first-child {
   padding-top: var(--spacing-lg);
 }
 
