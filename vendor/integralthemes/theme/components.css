@@ -422,14 +422,11 @@
    ============================================ */
 
 .about-content {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
 .about-content p {
-  font-size: 1.125rem;
-  line-height: 1.7;
-  margin-bottom: var(--spacing-md);
   max-width: 100%;
 }
 
@@ -645,6 +642,10 @@
   margin: 0 auto;
   padding-bottom: var(--spacing-lg);
   border-bottom: 1px solid #ebebeb;
+}
+
+.page-header + .section {
+  padding-top: var(--spacing-lg);
 }
 
 .page-header .page-intro {
