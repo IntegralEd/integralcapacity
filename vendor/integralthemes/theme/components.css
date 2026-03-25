@@ -656,7 +656,7 @@
 
 .page-header .page-intro {
   max-width: 900px;
-  margin: 0 auto;
+  margin: var(--spacing-lg) auto 0;
   color: var(--text-primary);
   font-size: 16px;
 }
