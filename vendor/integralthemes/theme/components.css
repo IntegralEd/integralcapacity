@@ -513,9 +513,17 @@
   border-top: 1px solid var(--border-light);
 }
 
-.footer-content {
-  text-align: left;
-  max-width: 100%;
+/* ── 4-column grid footer (shared across all sites) ── */
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+}
+
+.footer-brand {
+  max-width: 320px;
 }
 
 .footer-logo {
@@ -525,11 +533,86 @@
   margin-bottom: var(--spacing-xs);
 }
 
+.footer-tagline {
+  color: var(--text-tertiary);
+  font-size: 0.9375rem;
+  margin-bottom: var(--spacing-sm);
+  max-width: 100%;
+}
+
+.footer-parent {
+  color: var(--text-tertiary);
+  font-size: 0.875rem;
+  font-style: italic;
+  max-width: 100%;
+}
+
+.footer-nav-heading {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.footer-nav ul {
+  list-style: none;
+}
+
+.footer-nav li {
+  margin-bottom: 0.375rem;
+}
+
+.footer-nav a {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+}
+
+.footer-nav a:hover {
+  color: var(--primary);
+}
+
+.footer-contact-btn {
+  margin-top: var(--spacing-sm);
+}
+
+.footer-copy {
+  border-top: 1px solid var(--border-light);
+  padding-top: var(--spacing-md);
+  color: var(--text-tertiary);
+  font-size: 0.875rem;
+  max-width: 100%;
+}
+
+/* Legacy single-column footer (kept for backwards compat) */
+.footer-content {
+  text-align: left;
+  max-width: 100%;
+}
+
 .footer-text {
   color: var(--text-tertiary);
   font-size: 0.9375rem;
   max-width: 100%;
   padding: 0 var(--spacing-md);
+}
+
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ============================================
