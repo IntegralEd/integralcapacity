@@ -547,6 +547,15 @@
   max-width: 100%;
 }
 
+.footer-parent-link {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.footer-parent-link:hover {
+  color: var(--primary-dark);
+}
+
 .footer-nav-heading {
   font-size: 0.8125rem;
   font-weight: 600;
