@@ -1,0 +1,54 @@
+<!--
+  Shared footer template — Integral Ed microsite network
+  ======================================================
+
+  Build tokens replaced by each site's build.js at compile time:
+    {{FOOTER_SITE_NAME}}   → pkg.footer.siteName   (e.g. "eLearning &amp; Blended Learning")
+    {{FOOTER_PAGE_LINKS}}  → <li> elements built from pkg.footer.pageLinks array
+
+  Everything else (tagline body, Service Areas, Get in Touch, copyright)
+  is shared across all sites and lives here as the single source of truth.
+-->
+
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+
+      <!-- ── Brand: injected per site ── -->
+      <div class="footer-brand">
+        <p class="footer-logo">{{FOOTER_SITE_NAME}}</p>
+        <p class="footer-tagline">{{FOOTER_SITE_NAME}} is a division of <a href="https://www.integral-ed.com/" class="footer-parent-link" target="_blank" rel="noopener noreferrer">Integral Ed Services</a>, an educator-led learning and media design firm for mission-driven organizations. Adding technical and strategic capacity to schools, nonprofits, and workforce organizations since 2011.</p>
+      </div>
+
+      <!-- ── Pages: injected per site ── -->
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <h3 class="footer-nav-heading">Pages</h3>
+        <ul role="list">
+          {{FOOTER_PAGE_LINKS}}
+        </ul>
+      </nav>
+
+      <!-- ── Service Areas: identical across all sites — do not change ── -->
+      <nav class="footer-nav" aria-label="Service area microsites">
+        <h3 class="footer-nav-heading">Service Areas</h3>
+        <ul role="list">
+          <li><a href="https://www.integralelearning.com/" target="_blank" rel="noopener noreferrer">eLearning &amp; Blended Learning</a></li>
+          <li><a href="https://www.integralplatforms.com/" target="_blank" rel="noopener noreferrer">Platforms &amp; LMS</a></li>
+          <li><a href="https://www.integralcapacity.com/" target="_blank" rel="noopener noreferrer">Technical Assistance</a></li>
+          <li><a href="https://www.integralcareerpathways.com/" target="_blank" rel="noopener noreferrer">Career Connected Learning</a></li>
+          <li><a href="https://edugrowthstrategy.com/" target="_blank" rel="noopener noreferrer">Growth Strategy</a></li>
+          <li><a href="https://www.integralmediadesign.com/" target="_blank" rel="noopener noreferrer">Media &amp; Communications</a></li>
+        </ul>
+      </nav>
+
+      <!-- ── CTA: identical across all sites — do not change ── -->
+      <div class="footer-contact">
+        <h3 class="footer-nav-heading">Get in Touch</h3>
+        <a href="https://www.integral-ed.com/contact/" class="btn btn-primary footer-contact-btn" target="_blank" rel="noopener noreferrer">Talk With Our Team</a>
+      </div>
+
+    </div>
+    <p class="footer-copy">&copy; <span id="footer-year"></span> Integral Ed Services. All rights reserved.</p>
+  </div>
+</footer>
+<script>document.getElementById('footer-year').textContent = new Date().getFullYear();</script>

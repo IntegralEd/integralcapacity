@@ -1,0 +1,77 @@
+<!--
+  Integral Ed — GA4 Analytics (G-ZYXGKC3ZQ5)
+
+  Injected into every microsite's <head> at build time by build.js.
+  Before this block, build.js injects:
+    <script>window.IE_SITE_NAME = 'site-slug';</script>
+
+  Features:
+  - Double-injection guard (window.__IE_GA4_INITIALIZED__)
+  - site_name sent with every event (hostname fallback if IE_SITE_NAME not set)
+  - SPA / History API support: fires page_view on pushState + popstate
+  - Cross-domain linker: appends/reads _gl on links between Integral Ed domains
+    so session, user ID, and UTM attribution persist across domain hops
+  - Fails silently on any error
+
+  Cross-domain domains list: update linker.domains below if a new domain goes live.
+  To override site_name per-page (rare): set window.IE_SITE_NAME before </head>.
+-->
+
+<!-- GA4: Integral Ed unified property -->
+<script id="ga4-gtag-loader" async src="https://www.googletagmanager.com/gtag/js?id=G-ZYXGKC3ZQ5"></script>
+<script id="ga4-gtag-init">
+(function() {
+  // Guard against double-injection (e.g. dev hot-reload, script included twice)
+  if (window.__IE_GA4_INITIALIZED__) return;
+  window.__IE_GA4_INITIALIZED__ = true;
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ window.dataLayer.push(arguments); }
+  window.gtag = window.gtag || gtag;
+
+  // site_name: set by build.js via window.IE_SITE_NAME, else hostname
+  var siteName = (window.IE_SITE_NAME && String(window.IE_SITE_NAME).trim())
+    || window.location.hostname;
+
+  // Cross-domain domains — GA4 linker appends _gl to outbound links pointing here
+  // and reads _gl on arrival, preserving session/user/UTM across domain hops.
+  // Add new domains to this list when a microsite goes live on a custom domain.
+  var IE_DOMAINS = [
+    'integral-ed.com',              'www.integral-ed.com',
+    'integral-ed.studio',           'www.integral-ed.studio',
+    'edugrowthstrategy.com',        'www.edugrowthstrategy.com',
+    'integralcareerpathways.com',   'www.integralcareerpathways.com',
+    'integralcapacity.com',         'www.integralcapacity.com',
+    'integralplatforms.com',        'www.integralplatforms.com',
+    'integralelearning.com',        'www.integralelearning.com',
+    'integralmediadesign.com',      'www.integralmediadesign.com',
+    'mathbalance.com',              'www.mathbalance.com'
+  ];
+
+  gtag('js', new Date());
+  gtag('config', 'G-ZYXGKC3ZQ5', {
+    send_page_view: true,
+    site_name: siteName,
+    linker: { domains: IE_DOMAINS }
+  });
+
+  // SPA / History API navigation support
+  function sendPageView() {
+    try {
+      gtag('event', 'page_view', {
+        page_title:    document.title,
+        page_location: window.location.href,
+        page_path:     window.location.pathname + window.location.search,
+        site_name:     siteName
+      });
+    } catch(e) { /* fail silently */ }
+  }
+
+  var _pushState = history.pushState;
+  history.pushState = function() {
+    _pushState.apply(history, arguments);
+    sendPageView();
+  };
+  window.addEventListener('popstate', sendPageView);
+})();
+</script>

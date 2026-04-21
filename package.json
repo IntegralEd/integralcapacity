@@ -3,6 +3,16 @@
   "version": "1.0.0",
   "description": "IntegralEd Platform - Modern educational platform",
   "siteSlug": "integralcapacity",
+  "footer": {
+    "siteName": "Technical Assistance",
+    "pageLinks": [
+      { "href": "#home",        "label": "Home" },
+      { "href": "#services",    "label": "What We Do" },
+      { "href": "#proof",       "label": "Proof in Practice" },
+      { "href": "#how-we-work", "label": "How We Work" },
+      { "href": "#contact",     "label": "Contact" }
+    ]
+  },
   "scripts": {
     "build": "node build.js",
     "dev": "python3 -m http.server 8000",

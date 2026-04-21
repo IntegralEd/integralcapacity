@@ -2,41 +2,29 @@
   Shared footer template — Integral Ed microsite network
   ======================================================
 
-  HOW TO USE
-  ----------
-  Copy this block into your site's HTML. Customize two things:
-    1. .footer-logo text → your microsite's display name
-    2. .footer-tagline text → "{Microsite Name} is a division of..."
-    3. .footer-nav[aria-label="Footer navigation"] links → your site's pages
+  Build tokens replaced by each site's build.js at compile time:
+    {{FOOTER_SITE_NAME}}   → pkg.footer.siteName   (e.g. "eLearning &amp; Blended Learning")
+    {{FOOTER_PAGE_LINKS}}  → <li> elements built from pkg.footer.pageLinks array
 
-  Everything else (Service Areas, Get in Touch, copyright) is identical
-  across all sites and should not be changed per-site.
-
-  EXAMPLE tagline pattern:
-    "Education Growth Strategy is a division of Integral Ed Services.
-     An educator led learning design firm based in Austin, TX.
-     Serving Education Organizations since 2011."
+  Everything else (tagline body, Service Areas, Get in Touch, copyright)
+  is shared across all sites and lives here as the single source of truth.
 -->
 
 <footer class="footer" role="contentinfo">
   <div class="container">
     <div class="footer-grid">
 
-      <!-- ── Brand: customize logo name and tagline per site ── -->
+      <!-- ── Brand: injected per site ── -->
       <div class="footer-brand">
-        <p class="footer-logo"><!-- SITE NAME e.g. "Education Growth Strategy" --></p>
-        <p class="footer-tagline"><!-- SITE NAME --> is a division of <a href="https://www.integral-ed.com/" class="footer-parent-link" target="_blank" rel="noopener noreferrer">Integral Ed Services</a>. An educator led learning design firm based in Austin, TX. Serving Education Organizations since 2011.</p>
+        <p class="footer-logo">{{FOOTER_SITE_NAME}}</p>
+        <p class="footer-tagline">{{FOOTER_SITE_NAME}} is a division of <a href="https://www.integral-ed.com/" class="footer-parent-link" target="_blank" rel="noopener noreferrer">Integral Ed Services</a>, an educator-led learning and media design firm for mission-driven organizations. Adding technical and strategic capacity to schools, nonprofits, and workforce organizations since 2011.</p>
       </div>
 
-      <!-- ── Pages: customize links for this site ── -->
+      <!-- ── Pages: injected per site ── -->
       <nav class="footer-nav" aria-label="Footer navigation">
         <h3 class="footer-nav-heading">Pages</h3>
         <ul role="list">
-          <li><a href="#home">Home</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#how-we-work">How We Work</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <!-- Add or remove links to match your site's sections -->
+          {{FOOTER_PAGE_LINKS}}
         </ul>
       </nav>
 
