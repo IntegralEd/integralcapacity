@@ -23,6 +23,9 @@ jobs:
           - IntegralEd/integralmediadesign
           - IntegralEd/mathbalance
           - IntegralEd/integral-ed-main-site
+          - IntegralEd/DemoPortfolio
+          - IntegralEd/workbase
+
 
     steps:
       - name: Checkout integralthemes (source)
