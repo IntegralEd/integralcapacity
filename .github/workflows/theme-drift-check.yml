@@ -1,0 +1,70 @@
+name: theme-drift-check
+
+on:
+  pull_request:
+
+jobs:
+  guard:
+    name: Block direct edits to vendor/integralthemes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fail if PR modifies vendor/integralthemes
+        run: |
+          base="${{ github.event.pull_request.base.sha }}"
+          head="${{ github.event.pull_request.head.sha }}"
+          changed=$(git diff --name-only "$base" "$head" -- 'vendor/integralthemes/')
+          if [ -n "$changed" ]; then
+            {
+              echo "## Direct edits to vendor/integralthemes are not allowed"
+              echo ""
+              echo "This PR modifies files inside \`vendor/integralthemes/\`. That directory is synced automatically from [IntegralEd/integralthemes](https://github.com/IntegralEd/integralthemes) — edits here will be overwritten on the next upstream push."
+              echo ""
+              echo "### How to make this change"
+              echo ""
+              echo "- **Theme-wide change** (applies to every microsite): open a PR against [IntegralEd/integralthemes](https://github.com/IntegralEd/integralthemes). The sync workflow will propagate it here."
+              echo "- **Site-specific override** (applies only to this site): put styles in \`src/css/site.css\` or local markup in \`src/\`. Local \`src/\` content takes precedence over the vendored theme."
+              echo ""
+              echo "### Files flagged"
+              echo '```'
+              echo "$changed"
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "::error::Direct edits to vendor/integralthemes/ are not allowed. See job summary."
+            exit 1
+          fi
+          echo "No edits to vendor/integralthemes/"
+
+  drift:
+    name: Verify vendor/integralthemes matches upstream main
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Clone upstream integralthemes
+        run: git clone --depth 1 https://github.com/IntegralEd/integralthemes.git /tmp/upstream
+
+      - name: Strip non-theme files from upstream
+        run: rm -rf /tmp/upstream/.git /tmp/upstream/.github
+
+      - name: Diff vendor/integralthemes against upstream main
+        run: |
+          if diff -rq /tmp/upstream vendor/integralthemes > /tmp/drift.txt; then
+            echo "vendor/integralthemes is in sync with integralthemes@main"
+          else
+            {
+              echo "## vendor/integralthemes has drifted from upstream"
+              echo ""
+              echo "\`vendor/integralthemes/\` does not match [IntegralEd/integralthemes@main](https://github.com/IntegralEd/integralthemes). This typically means the sync workflow in integralthemes didn't run or failed on a recent upstream push."
+              echo ""
+              echo "### Drift"
+              echo '```'
+              cat /tmp/drift.txt
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+            cat /tmp/drift.txt
+            exit 1
+          fi
