@@ -165,7 +165,7 @@ integralthemes/
 │   ├── brand/           # Logos and favicons
 │   └── icons/           # UI icons (SVG)
 ├── components/
-│   └── widgets.html     # Universal chat widget (Chatbase)
+│   └── widgets.html     # (deprecated) empty stub, chat widget retired
 └── README.md
 ```
 
@@ -596,48 +596,24 @@ Copy-paste ready HTML templates for all available components. Replace placeholde
 
 ### JavaScript Widgets
 
-#### Universal Chat Widget (Chatbase)
+#### Universal Chat Widget: DEPRECATED (2026)
 
-**Location:** `components/widgets.html`
+**Location:** `components/widgets.html` (now an empty stub)
 
-A shared customer support chat widget that appears across all Integral Ed microsites.
+The shared Chatbase "sales assistant" popup was retired ahead of the
+ChatBase subscription sunset, based on traffic/use analysis showing very low
+engagement.
 
-**Features:**
-- Loads after 10-second delay (avoids impacting page load performance)
-- Appears bottom-right corner (Chatbase default position)
-- Single shared Chatbase ID for unified conversation history
-- Automatically captures URL and UTM parameters as context
-- Context sent once per session (invisible to user)
-- No per-site configuration needed
+`components/widgets.html` is intentionally kept as an empty stub rather than
+deleted: microsites inject it into `<body>` at build time, so an empty file
+renders no widget without requiring an immediate build change in every site.
+Once each microsite's build stops referencing the partial, the file can be
+removed entirely.
 
-**Implementation in Microsites:**
-
-Microsites should inject this widget at build time into the `<body>` of all HTML pages.
-
-**Example build script integration:**
-```javascript
-// Read widget HTML
-const widgetHtml = fs.readFileSync(
-  'vendor/integralthemes/components/widgets.html',
-  'utf8'
-);
-
-// Inject before closing </body> tag
-const updatedHtml = htmlContent.replace(
-  '</body>',
-  `${widgetHtml}\n</body>`
-);
-```
-
-**Technical Details:**
-- **Chatbase ID**: `Yb5-ZOPsnSt9Ju6r3P7C7`
-- **Domain**: `www.chatbase.co`
-- **Load delay**: 10 seconds (10000ms)
-- **Position**: Bottom-right (default)
-- **Context capture**: URL, path, and UTM parameters (source, medium, campaign, term, content)
-- **Context format**: `INTEGRAL_CONTEXT:{json}` sent as first message
-- **Session tracking**: Uses `sessionStorage` to send context once per session
-- **Identical across all sites**: No customization per microsite
+**Do not re-add a chat embed here** without coordinating across all
+microsites, since this file propagates to every site via
+`.github/workflows/sync-microsites.yml`. A new embed would silently reappear
+on all of them.
 
 ### Selector Compatibility
 
