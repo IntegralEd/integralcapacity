@@ -1,16 +1,49 @@
 <!--
-  Chat widget: DEPRECATED (2026)
+  Universal Integral Ed Sales Assistant chat bubble (integral-ed.app)
 
-  The universal Chatbase "sales assistant" popup was retired ahead of the
-  ChatBase subscription sunset, based on traffic/use analysis showing very
-  low engagement.
+  Replaces the retired Chatbase "sales assistant" popup (deprecated 2026).
+  Shared across all Integral Ed microsites via the integralthemes sync
+  (.github/workflows/sync-microsites.yml). Microsites inject this file into
+  <body> (before </body>) at build time.
 
-  This file is intentionally left as an empty stub rather than deleted:
-  microsites inject it into <body> at build time, so an empty file renders
-  no widget without requiring an immediate build change in every site. As
-  each microsite's build stops referencing this partial, the file can be
-  removed entirely.
+  Behavior:
+  - Bubble appears 5 seconds after window load (delayed so it never competes
+    with page load / LCP)
+  - Bottom-right, brand purple, custom icon (see IEAgentConfig below)
+  - Does not auto-open (autoOpenSeconds: 0)
+  - Agent: sales-assistant-v1, served from https://integral-ed.app/embed/
 
-  DO NOT re-add a chat embed here without coordinating across all microsites
-  (see .github/workflows/sync-microsites.yml for the propagation list).
+  Opt-out: microsite builds honor an "@no-widget" HTML-comment marker on a
+  page to skip injection (e.g. the main site's 15th-anniversary page).
+
+  Allowed origins are configured on the integral-ed.app side; add a domain
+  there when a new microsite goes live or the bubble will load but refuse
+  to respond.
 -->
+
+<script>
+(function () {
+  var DELAY_MS = 5000;
+
+  window.IEAgentConfig = {
+    "agent": "sales-assistant-v1",
+    "name": "Integral Ed Sales Assistant",
+    "position": "right",
+    "bubbleColor": "#600b68",
+    "bubbleIcon": "https://assets.softr-files.com/applications/66e9ed01-a4f0-47d8-88cd-7e7dec8a66a2/assets/e0668916-13c2-4641-ac0d-4ce79c216036.webp",
+    "autoOpenSeconds": 0
+  };
+
+  function load() {
+    var s = document.createElement('script');
+    s.src = 'https://integral-ed.app/embed/sales-assistant-v1.js';
+    s.async = true;
+    document.body.appendChild(s);
+  }
+
+  function schedule() { setTimeout(load, DELAY_MS); }
+
+  if (document.readyState === 'complete') schedule();
+  else window.addEventListener('load', schedule);
+})();
+</script>

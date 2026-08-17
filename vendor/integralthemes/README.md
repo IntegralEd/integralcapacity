@@ -165,7 +165,7 @@ integralthemes/
 │   ├── brand/           # Logos and favicons
 │   └── icons/           # UI icons (SVG)
 ├── components/
-│   └── widgets.html     # (deprecated) empty stub, chat widget retired
+│   └── widgets.html     # Sales Assistant chat bubble (integral-ed.app), all sites
 └── README.md
 ```
 
@@ -596,24 +596,29 @@ Copy-paste ready HTML templates for all available components. Replace placeholde
 
 ### JavaScript Widgets
 
-#### Universal Chat Widget: DEPRECATED (2026)
+#### Universal Sales Assistant Chat Bubble
 
-**Location:** `components/widgets.html` (now an empty stub)
+**Location:** `components/widgets.html`
 
-The shared Chatbase "sales assistant" popup was retired ahead of the
-ChatBase subscription sunset, based on traffic/use analysis showing very low
-engagement.
+A shared chat bubble powered by the Integral Ed agent platform
+(`https://integral-ed.app/embed/sales-assistant-v1.js`). It replaces the
+Chatbase popup retired in 2026.
 
-`components/widgets.html` is intentionally kept as an empty stub rather than
-deleted: microsites inject it into `<body>` at build time, so an empty file
-renders no widget without requiring an immediate build change in every site.
-Once each microsite's build stops referencing the partial, the file can be
-removed entirely.
+- Loads **5 seconds after window load** so it never competes with page load.
+- Bottom-right, brand purple (`#600b68`), custom icon; does not auto-open.
+- Config lives in `window.IEAgentConfig` inside the partial. Change it there
+  and it propagates to every microsite on the next sync.
+- **Allowed origins** are configured on the integral-ed.app side. When a
+  microsite goes live on a new domain, add it there (and to the GA4 linker
+  list in `analytics.html`).
 
-**Do not re-add a chat embed here** without coordinating across all
-microsites, since this file propagates to every site via
-`.github/workflows/sync-microsites.yml`. A new embed would silently reappear
-on all of them.
+**Usage:** microsite builds inject this file before `</body>` on every page.
+Pages that must not show the bubble (e.g. the main site's 15th-anniversary
+page) carry an `<!-- @no-widget -->` marker that the build honors.
+
+Because this file propagates to every site via
+`.github/workflows/sync-microsites.yml`, coordinate any change here across
+all microsites.
 
 ### Selector Compatibility
 
