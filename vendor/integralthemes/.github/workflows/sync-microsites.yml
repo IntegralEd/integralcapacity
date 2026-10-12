@@ -25,6 +25,7 @@ jobs:
           - IntegralEd/integral-ed-main-site
           - IntegralEd/DemoPortfolio
           - IntegralEd/workbase
+          - IntegralEd/IntegralDataServices
 
 
     steps:
