@@ -606,6 +606,12 @@ Chatbase popup retired in 2026.
 
 - Loads **5 seconds after window load** so it never competes with page load.
 - Bottom-right, brand purple (`#600b68`), custom icon; does not auto-open.
+- Not loaded on phones or short landscape screens (`max-width: 768px` or
+  `max-height: 500px`). `theme/components.css` uses the same media query to hide
+  the bubble if a window shrinks later, and to let `.navbar` scroll away instead
+  of staying fixed. The bar stays fixed only while the menu is open, so the close
+  button can't scroll off screen. A page with its own sticky bars below the menu
+  bar needs to move them to `top: 0` at that size.
 - Config lives in `window.IEAgentConfig` inside the partial. Change it there
   and it propagates to every microsite on the next sync.
 - **Allowed origins** are configured on the integral-ed.app side. When a

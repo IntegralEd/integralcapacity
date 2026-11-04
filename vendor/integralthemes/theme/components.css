@@ -757,6 +757,27 @@
    RESPONSIVE OVERRIDES
    ============================================ */
 
+/* Phones and short landscape screens. Same media query as components/widgets.html */
+@media (max-width: 768px), (max-height: 500px) {
+  /* The menu bar scrolls away instead of floating over the content */
+  .navbar {
+    position: absolute;
+  }
+
+  /* While the menu is open the bar stays put, so the page can scroll behind the
+     menu without taking the close button off screen */
+  .navbar:has(.nav-links.active) {
+    position: fixed;
+  }
+
+  /* The chat bubble covers text and sits over the menu and video modal.
+     widgets.html doesn't load it at this size; this covers a window that shrinks later */
+  .iea-btn,
+  .iea-frame {
+    display: none !important;
+  }
+}
+
 @media (max-width: 768px) {
   /* Navigation Mobile */
   .nav-toggle {

@@ -12,6 +12,9 @@
   - Bottom-right, brand purple, custom icon (see IEAgentConfig below)
   - Does not auto-open (autoOpenSeconds: 0)
   - Agent: sales-assistant-v1, served from https://integral-ed.app/embed/
+  - Not loaded on phones or short landscape screens, where it covers text and
+    sits over the menu and video modal. If the window later grows past that
+    size (a tablet rotating, say), it loads then.
 
   Opt-out: microsite builds honor an "@no-widget" HTML-comment marker on a
   page to skip injection (e.g. the main site's 15th-anniversary page).
@@ -24,6 +27,8 @@
 <script>
 (function () {
   var DELAY_MS = 5000;
+  // Same media query as the phone rules in theme/components.css
+  var SMALL_SCREEN = window.matchMedia('(max-width: 768px), (max-height: 500px)');
 
   window.IEAgentConfig = {
     "agent": "sales-assistant-v1",
@@ -41,7 +46,16 @@
     document.body.appendChild(s);
   }
 
-  function schedule() { setTimeout(load, DELAY_MS); }
+  function loadOnceLargeEnough() {
+    if (!SMALL_SCREEN.matches) return load();
+    SMALL_SCREEN.addEventListener('change', function onChange(e) {
+      if (e.matches) return;
+      SMALL_SCREEN.removeEventListener('change', onChange);
+      load();
+    });
+  }
+
+  function schedule() { setTimeout(loadOnceLargeEnough, DELAY_MS); }
 
   if (document.readyState === 'complete') schedule();
   else window.addEventListener('load', schedule);
