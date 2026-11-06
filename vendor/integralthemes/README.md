@@ -24,6 +24,13 @@ This is **not a standalone deployable site**. It contains no:
 
 ## How Microsites Consume This Theme
 
+> **Scope: Netlify-deployed static sites only.**
+> This theme and the `sync-microsites` workflow are designed for plain HTML/CSS sites deployed via Netlify — the standard pattern for all Integral Ed microsites. They are **not intended for Vite/React/Next.js or other bundled apps** deployed via Vercel or similar. Those apps manage their own dependencies and styling; adding them to the sync matrix would push unused files into their repos.
+>
+> Quick check before adding a repo to the matrix:
+> - ✅ Has `src/index.html` and a `vendor/` directory → add to matrix
+> - 🚫 Has a `package.json` with a bundler (Vite, webpack, Next.js) or deploys via Vercel → keep out
+
 ### Installation
 
 Vendor this theme into your microsite using git subtree or submodule.

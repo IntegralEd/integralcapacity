@@ -21,10 +21,7 @@ jobs:
           - IntegralEd/integralplatforms
           - IntegralEd/integralelearning
           - IntegralEd/integralmediadesign
-          - IntegralEd/mathbalance
           - IntegralEd/integral-ed-main-site
-          - IntegralEd/DemoPortfolio
-          - IntegralEd/workbase
           - IntegralEd/IntegralDataServices
 
 
@@ -49,24 +46,11 @@ jobs:
           git config user.name "Integral Themes Bot"
           git config user.email "noreply@integral-ed.com"
 
-      - name: Check if microsite is ready for theme sync
-        id: check_vendor
-        run: |
-          cd microsite
-          if [ -d "vendor/integralthemes" ]; then
-            echo "ready=true" >> $GITHUB_OUTPUT
-            echo "✓ vendor/integralthemes exists - proceeding with sync"
-          else
-            echo "ready=false" >> $GITHUB_OUTPUT
-            echo "⚠ vendor/integralthemes not found - skipping sync"
-            echo "This microsite is not yet configured to use the shared theme."
-          fi
+      - name: Create vendor/integralthemes if missing
+        run: mkdir -p microsite/vendor/integralthemes
 
       - name: Sync theme files
-        if: steps.check_vendor.outputs.ready == 'true'
         run: |
-          # rsync works regardless of how vendor was originally set up
-          # (direct copy or git subtree — both are handled correctly)
           rsync -av --delete integralthemes/. microsite/vendor/integralthemes/
 
           cd microsite
@@ -81,30 +65,7 @@ jobs:
             echo "✓ Pushed to ${{ matrix.repo }}"
           fi
 
-      - name: Report skip
-        if: steps.check_vendor.outputs.ready == 'false'
-        run: |
-          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo "SKIPPED: ${{ matrix.repo }}"
-          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo ""
-          echo "This microsite does not yet have vendor/integralthemes."
-          echo "To enable automatic theme sync, create the directory and"
-          echo "copy the integralthemes source into it:"
-          echo ""
-          echo "  mkdir -p vendor/integralthemes"
-          echo "  cp -r path/to/integralthemes/. vendor/integralthemes/"
-          echo "  git add vendor/integralthemes && git commit -m 'Add integralthemes vendor'"
-          echo ""
-          echo "This is expected during rollout and is not an error."
-          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-
       - name: Summary
         if: always()
         run: |
-          cd microsite
-          if [ -d "vendor/integralthemes" ]; then
-            echo "✅ ${{ matrix.repo }}: Theme sync completed"
-          else
-            echo "⏭️  ${{ matrix.repo }}: Skipped (not yet configured)"
-          fi
+          echo "✅ ${{ matrix.repo }}: Theme sync completed"
